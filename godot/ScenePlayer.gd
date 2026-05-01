@@ -61,7 +61,8 @@ func run_scene() -> void:
 			_character_displayer.display(character, expression, side, animation)
 			##Make await conditional based on if we want to wait for the next node
 			if _scene_data[node.next] is SceneTranspiler.ShowCommandNode:
-				pass
+				key = node.next
+				continue
 			else:
 				await _character_displayer.display_finished
 
