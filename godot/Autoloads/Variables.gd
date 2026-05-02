@@ -58,9 +58,5 @@ func _evaluate(input):
 	obj.set_script(script)
 	return obj.eval()
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 082562c496e77f32ea9d0f9e8a6e78e016542a94
 func add_marked_textures(key: int, value: Dictionary):
 	test_data_dictionary[key] = value
