@@ -19,7 +19,6 @@ func get_narrator() -> Character:
 func get_background(background_id: String) -> Background:
 	return _backgrounds.get(background_id)
 
-
 func get_song(song_id: String) -> Song:
 	return _songs.get(song_id)
 

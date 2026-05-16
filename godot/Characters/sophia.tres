@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="Character" format=3 uid="uid://doo56slpsi3ke"]
 
+
 [ext_resource type="Script" uid="uid://bn4x58vdls101" path="res://Characters/Character.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bpq0djo0dk6xd" path="res://Characters/Sophia/sophia_neutral.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://clpe1mk5qsbqa" path="res://Characters/Sophia/sophia_happy.png" id="3"]

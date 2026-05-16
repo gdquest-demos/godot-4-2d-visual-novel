@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="Background" format=3 uid="uid://vemdfq2k78oq"]
 
+
 [ext_resource type="Texture2D" uid="uid://f5kfh15gf6af" path="res://Backgrounds/community_garden.jpg" id="1"]
 [ext_resource type="Script" uid="uid://bkjtr60pxpcmk" path="res://Backgrounds/Background.gd" id="2"]
 

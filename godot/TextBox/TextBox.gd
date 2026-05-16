@@ -45,6 +45,8 @@ func _unhandled_input(event: InputEvent) -> void:
 # Either complete the current line or show the next dialogue line
 func advance_dialogue() -> void:
 	if _blinking_arrow.visible:
+		_name_label.text = ""
+		text = ""
 		next_requested.emit()
 	elif _tween:
 		_tween.custom_step(100.0)
@@ -67,6 +69,7 @@ func display(_text: String, character_name := "", speed := display_speed) -> voi
 
 
 func display_choice(choices: Array) -> void:
+	text = ""
 	_skip_button.hide()
 	_name_background.disappear()
 	_rich_text_label.hide()
@@ -124,7 +127,6 @@ func _on_ChoiceSelector_choice_made(target_id: int) -> void:
 
 func _on_SkipButton_timer_ticked() -> void:
 	advance_dialogue()
-
 
 func clear():
 	text = ""

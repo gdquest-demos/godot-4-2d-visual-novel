@@ -1,10 +1,10 @@
 ## Auto-loaded node that handles global variables
 extends Node
 
+
 var test_data_dictionary = { }
 
 const SAVE_FILE_LOCATION := "user://2DVisualNovelDemo.save"
-
 
 func add_variable(_name: String, value) -> void:
 	var save_file := FileAccess.open(SAVE_FILE_LOCATION, FileAccess.READ_WRITE)
@@ -57,7 +57,6 @@ func _evaluate(input):
 	var obj = RefCounted.new()
 	obj.set_script(script)
 	return obj.eval()
-
 
 func add_marked_textures(key: int, value: Dictionary):
 	test_data_dictionary[key] = value

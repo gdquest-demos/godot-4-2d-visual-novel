@@ -7,8 +7,9 @@ extends Node
 signal display_finished
 
 ## Maps animation text ids to a function that animates a character sprite.
-const ANIMATIONS := { "enter": "_enter", "leave": "_leave" }
-const SIDE := { LEFT = "left", RIGHT = "right" }
+const ANIMATIONS := {"enter": "_enter", "leave": "_leave", "test": "_test"}
+const SIDE := {LEFT = "left", RIGHT = "right"}
+const SIDE_POSITION := {LEFT = Vector2(330.836, 655.203), RIGHT = Vector2(1592.01, 655.203)}
 const COLOR_WHITE_TRANSPARENT = Color(1.0, 1.0, 1.0, 0.0)
 
 ## Keeps track of the character displayed on either side.
@@ -18,12 +19,10 @@ var _tween: Tween
 @onready var _left_sprite: Sprite2D = $Left
 @onready var _right_sprite: Sprite2D = $Right
 
-
 func _ready() -> void:
 	_left_sprite.hide()
 	_right_sprite.hide()
 	#_tween.finished.connect(_on_tween_finished)
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	# If the player presses enter before the character animations ended, we seek to the end.
@@ -32,7 +31,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		_tween.kill()
 
 
-func display(character: Character, side: String = SIDE.LEFT, expression := "", animation := "") -> void:
+func display(character: Character, expression := "", side: String = SIDE.LEFT, animation := "") -> void:
+#	assert(side in SIDE.values())
 	# Keeps track of a character that's already displayed on a given side
 	var sprite: Sprite2D = _left_sprite if side == SIDE.LEFT else _right_sprite
 	if character == _displayed.left:
@@ -55,8 +55,7 @@ func _enter(from_side: String, sprite: Sprite2D) -> void:
 	var offset := -200 if from_side == SIDE.LEFT else 200
 
 	var start := sprite.position + Vector2(offset, 0.0)
-	var end := sprite.position
-
+	var end := SIDE_POSITION.LEFT if from_side == SIDE.LEFT else SIDE_POSITION.RIGHT
 	_tween = create_tween()
 	_tween.finished.connect(_on_tween_finished)
 	_tween.set_parallel(true)
@@ -72,6 +71,7 @@ func _enter(from_side: String, sprite: Sprite2D) -> void:
 	# We don't use Tween.seek(0.0) here since that could conflict with running tweens and make them jitter back and forth
 	sprite.position = start
 	sprite.modulate = COLOR_WHITE_TRANSPARENT
+	return
 
 
 func _leave(from_side: String, sprite: Sprite2D) -> void:
@@ -97,7 +97,6 @@ func _leave(from_side: String, sprite: Sprite2D) -> void:
 	).set_delay(.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR).from(Color.WHITE)
 	_tween.start()
 	_tween.seek(0.0)
-
 
 func _on_tween_finished() -> void:
 	display_finished.emit()

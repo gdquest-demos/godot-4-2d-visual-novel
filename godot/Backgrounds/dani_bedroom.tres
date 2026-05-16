@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="Background" format=3 uid="uid://u50iq2ciieef"]
 
+
 [ext_resource type="Texture2D" uid="uid://dsq2rbfiyycqj" path="res://Backgrounds/dani_bedroom.jpg" id="1"]
 [ext_resource type="Script" uid="uid://bkjtr60pxpcmk" path="res://Backgrounds/Background.gd" id="2"]
 

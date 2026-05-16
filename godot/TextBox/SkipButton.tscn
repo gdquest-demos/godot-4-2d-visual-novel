@@ -5,6 +5,7 @@
 [node name="SkipButton" type="Button" unique_id=224261460]
 self_modulate = Color(0.678431, 0.678431, 0.678431, 0.67451)
 anchors_preset = 3
+
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -17,6 +18,9 @@ action_mode = 0
 keep_pressed_outside = true
 text = "SKIP"
 script = ExtResource("1")
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DelayTimer" type="Timer" parent="." unique_id=322542735]
 wait_time = 0.1

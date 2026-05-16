@@ -3,8 +3,12 @@ mark jump_location
 
 background dani_bedroom
 
-sophia happy enter left "Hi there! My name's Sophia. How about you?"
-dani neutral enter right "Hey, I'm Dani."
+show sophia happy enter left
+show dani neutral enter right
+
+sophia happy "Hi there! My name's Sophia. How about you?"
+
+dani neutral "Hey, I'm Dani."
 
 choice:
 	"Start over":
@@ -39,7 +43,7 @@ sophia "Well, let's continue."
 
 # Comments work!
 # "This is a commented out line"
-"Want to start over?" # Inline comment!
+"Want to start over?" # Inline comment! 
 choice:
 	"Yes":
 		set started_over true

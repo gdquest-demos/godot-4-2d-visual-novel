@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b5e00xpnn1hps"]
 
+
 [ext_resource type="Texture2D" uid="uid://bw8bk4vud8j36" path="res://TextBox/arrow.png" id="1"]
 
 [sub_resource type="Animation" id="1"]
@@ -45,6 +46,8 @@ texture = ExtResource("1")
 expand_mode = 1
 stretch_mode = 5
 
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1060717982]
 libraries/ = SubResource("AnimationLibrary_gt4cr")
 autoplay = &"New Anim"
+

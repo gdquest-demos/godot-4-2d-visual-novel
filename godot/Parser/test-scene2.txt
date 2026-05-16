@@ -2,9 +2,12 @@ background community_garden fade_in
 
 "Welcome to the next test scene!"
 
-sophia happy enter left "Why are we here again?"
+show sophia neutral enter right
+show dani neutral enter left wait
 
-dani neutral enter right "Beats me."
+sophia happy "Why are we here again?"
+
+dani neutral "Beats me."
 
 dani "Did you jump ahead in the last scene, Sophia?"
 

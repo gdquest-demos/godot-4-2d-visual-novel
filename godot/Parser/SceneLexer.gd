@@ -12,6 +12,7 @@ const BUILT_IN_COMMANDS := {
 	TRANSITION = "transition",
 	SET = "set",
 	SONG = "song",
+	SHOW = "show",
 }
 const CONDITIONAL_STATEMENTS := ["if", "elif", "else"]
 const BOOLEAN_OPERATORS := ["and", "or", "not"]
@@ -32,7 +33,7 @@ const TOKEN_TYPES := {
 	COMMENT = "Comment",
 	AND = "And",
 	OR = "Or",
-	NOT = "Not",
+	NOT = "Not"
 }
 
 # We allow lower and uppercase letters, numbers, and underscores in identifiers.
@@ -48,11 +49,9 @@ class Token:
 	var type: String
 	var value = ""
 
-
 	func _init(_type: String, _value) -> void:
 		self.type = _type
 		self.value = _value
-
 
 	func _to_string() -> String:
 		return "{ type = \"%s\", value = \"%s\" }" % [self.type, self.value]
@@ -66,16 +65,13 @@ class DialogueScript:
 	var _current_indent_level := 0
 	var _length := 0
 
-
 	func _init(text: String) -> void:
 		self._text = text
 		self._length = len(text)
 
-
 	## Returns the character at the current lexer position.
 	func get_current_character() -> String:
 		return self._text[self._current_index]
-
 
 	## Returns the previously read character.
 	func get_previous_character() -> String:
@@ -83,7 +79,6 @@ class DialogueScript:
 			return self._text[self._current_index - 1]
 		else:
 			return ""
-
 
 	## Returns the character at the next lexer position without advancing the
 	## current lexer position.
@@ -93,7 +88,6 @@ class DialogueScript:
 		else:
 			push_error("End of File encountered. Cannot peek.")
 			return ""
-
 
 	## Advances the current lexer position by one and returns the character at
 	## the new position.
@@ -105,7 +99,6 @@ class DialogueScript:
 			push_error("End of File encountered. Cannot move next.")
 			return ""
 
-
 	## Decrement the current lexer position and returns the character at that
 	## position.
 	func move_to_previous_character() -> String:
@@ -115,7 +108,6 @@ class DialogueScript:
 		else:
 			push_error("Can't go back beyond the first character of the script")
 			return ""
-
 
 	func is_at_end_of_file() -> bool:
 		return self._current_index == len(_text) - 1
@@ -135,7 +127,7 @@ func read_file_content(path: String) -> String:
 
 ## Turns the `input_text` into an array of `Token` objects.
 func tokenize(input_text: String) -> Array[Token]:
-	var tokens: Array[Token] = []
+	var tokens : Array[Token] = []
 	var script := DialogueScript.new(input_text)
 
 	while not script.is_at_end_of_file():

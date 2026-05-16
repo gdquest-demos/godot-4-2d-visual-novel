@@ -15,7 +15,7 @@ const TRANSITIONS := {
 	fade_out = "_disappear_async",
 }
 
-var _scene_data := { }
+var _scene_data := {}
 
 @onready var _text_box := $TextBox
 @onready var _character_displayer := $CharacterDisplayer
@@ -39,9 +39,9 @@ func run_scene() -> void:
 			var left = _character_displayer._left_sprite.texture
 			var right = _character_displayer._right_sprite.texture
 			var container = {
-				"BG": BG,
-				"L": left,
-				"R": right,
+				"BG" : BG,
+				"L" : left,
+				"R" : right
 			}
 			Variables.add_marked_textures(key, container)
 
@@ -53,18 +53,31 @@ func run_scene() -> void:
 			var bgm: Song = ResourceDB.get_song(node.song)
 			_bgm.stream = bgm.song
 			_bgm.play()
-
-		# Displaying a character.
-		if "character" in node && node.character != "":
-			var side: String = node.side if "side" in node else CharacterDisplayer.SIDE.LEFT
+		
+		if node is SceneTranspiler.ShowCommandNode:
+			var side: String = node.side
 			var animation: String = node.animation
 			var expression: String = node.expression
-			_character_displayer.display(character, side, expression, animation)
-			if not "line" in node:
+			_character_displayer.display(character, expression, side, animation)
+			##Make await conditional based on if we want to wait for the next node
+			if _scene_data[node.next] is SceneTranspiler.ShowCommandNode:
+				key = node.next
+				continue
+			else:
 				await _character_displayer.display_finished
 
+		# Changes a character's expression and readies their line for display
+		if "line" in node && "character" in node && node.character != "":
+			var expression: String = node.expression
+			_character_displayer.display(character, expression)
+
+		if "line" in node and node.line == "":
+			key = node.next
+			continue
+			
+
 		# Normal text reply.
-		if "line" in node:
+		if "line" in node && node.line != "":
 			if !_text_box.visible:
 				_text_box.show()
 			_text_box.display(node.line, character.display_name)
@@ -77,7 +90,9 @@ func run_scene() -> void:
 				call(TRANSITIONS[node.transition])
 				await self.transition_finished
 			else:
-				call("default")
+				##TODO: if the next node doesn't have a line in it, do not display the text box.
+				#call("default")
+				default()
 				await transition_finished
 			key = node.next
 
@@ -109,14 +124,6 @@ func run_scene() -> void:
 				return
 		elif node is SceneTranspiler.ConditionalTreeNode:
 			var variables_list: Dictionary = Variables.get_stored_variables_list()
-
-			if not variables_list.has("variables"):
-				push_error(
-					"The game tried to check a condition (if / elif), but no variables are saved yet.\n" +
-					"Add a `set` command before your first if / elif / else block. For example: 'set my_variable false'",
-				)
-				key = node.next
-				continue
 
 			# Evaluate the if's condition
 			if (
@@ -161,8 +168,7 @@ func run_scene() -> void:
 	_character_displayer.hide()
 	scene_finished.emit()
 
-
-func load_textures_from_mark(key: int):
+func load_textures_from_mark(key:int):
 	_background.texture = Variables.test_data_dictionary[key]["BG"]
 	_character_displayer._left_sprite.texture = Variables.test_data_dictionary[key]["L"]
 	_character_displayer._right_sprite.texture = Variables.test_data_dictionary[key]["R"]
@@ -176,9 +182,9 @@ func load_scene(dialogue: SceneTranspiler.DialogueTree) -> void:
 func _appear_async() -> void:
 	_anim_player.play("fade_in")
 	await _anim_player.animation_finished
+	#await _text_box.fade_in_async().completed
 	await _text_box.fade_in_async()
 	transition_finished.emit()
-
 
 func default() -> void:
 	_anim_player.play("default")
@@ -186,8 +192,8 @@ func default() -> void:
 	await _text_box.fade_in_async()
 	transition_finished.emit()
 
-
 func _disappear_async() -> void:
+	#await _text_box.fade_out_async().completed
 	await _text_box.fade_out_async()
 	_anim_player.play("fade_out")
 	await _anim_player.animation_finished
